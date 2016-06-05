@@ -99,8 +99,8 @@ public class QuestFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_quest, container, false);
 
         modifiyView = v.findViewById(R.id.add_cancel_button_view);
-        Boolean isFuncVisible = (Boolean)getArguments().getSerializable(ARG_FUNC_BUTTON);
-        if (isFuncVisible == true) { //receive  true
+        boolean isFuncVisible = (Boolean)getArguments().getSerializable(ARG_FUNC_BUTTON);
+        if (isFuncVisible == false) {
             modifiyView.setVisibility(View.GONE);
         }
 

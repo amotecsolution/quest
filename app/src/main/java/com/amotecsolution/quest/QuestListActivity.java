@@ -29,7 +29,7 @@ public class QuestListActivity extends SingleFragmentActivity implements QuestLi
     }
 
     @Override
-    public void onQuestSelected(Quest quest, Boolean isVisible) {
+    public void onQuestSelected(Quest quest, boolean isVisible) {
 
         if(findViewById(R.id.detail_fragment_container) == null) {
             Intent intent = QuestPagerActivity.newIntent(this, quest.getQuestId(), isVisible);

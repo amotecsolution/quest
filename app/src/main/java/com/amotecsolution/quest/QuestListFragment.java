@@ -34,7 +34,7 @@ public class QuestListFragment extends Fragment {
     private static final String TAG = "QuestListFragment";
 
     public interface Callbacks {
-        void onQuestSelected(Quest quest, Boolean isFuncVisible);
+        void onQuestSelected(Quest quest, boolean isFuncVisible);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class QuestListFragment extends Fragment {
             //Intent intent = new Intent(getActivity(),QuestActivity.class);
             //Intent intent = QuestPagerActivity.newIntent(getActivity(), mQuest.getQuestId());
             //startActivity(intent);
-            mCallbacks.onQuestSelected(mQuest, null);
+            mCallbacks.onQuestSelected(mQuest, false);
         }
     }
 
