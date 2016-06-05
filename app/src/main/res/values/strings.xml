@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Quest</string>
+    <string name="action_settings">Settings</string>
+    <string name="quest_title_hint">Enter a title for the quest</string>
+    <string name="abc">ABC</string>
+    <string name="new_quest">New Quest</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle_format">%1$s quests</string>
+    <string name="quest_title_label">TITLE</string>
+    <string name="quest_title_detail_hint">DETAIL</string>
+    <string name="quest_solved_label">Solved</string>
+
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$s quest </item>
+        <item quantity="other">%1$s quests</item>
+    </plurals>
+</resources>
