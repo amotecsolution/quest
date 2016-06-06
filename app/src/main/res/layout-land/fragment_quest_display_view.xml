@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <include layout="@layout/view_camera_and_title"></include>
@@ -13,23 +13,24 @@
         android:layout_marginTop="16dp"
         android:hint="@string/quest_title_detail_hint"/>
 
-    <Button
-        android:id="@+id/quest_date"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp">
+    
+        <Button
+            android:id="@+id/quest_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    
+        <CheckBox
+            android:id="@+id/quest_solved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quest_solved_label"
+            android:layout_weight="1"/>
 
-    <CheckBox
-        android:id="@+id/quest_solved"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_below="@+id/quest_date"/>
-
-    <include android:id="@+id/add_cancel_button_view"
-        layout="@layout/view_add_and_cancel"></include>
-
-
+    </LinearLayout>
 </LinearLayout>

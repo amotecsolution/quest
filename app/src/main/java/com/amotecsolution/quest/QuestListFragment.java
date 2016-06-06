@@ -34,7 +34,8 @@ public class QuestListFragment extends Fragment {
     private static final String TAG = "QuestListFragment";
 
     public interface Callbacks {
-        void onQuestSelected(Quest quest, boolean isFuncVisible);
+        void onQuestSelected(Quest quest);
+        void onQuestEdit();
     }
 
     @Override
@@ -101,10 +102,11 @@ public class QuestListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_new_crime:
-                Quest quest = new Quest();
+                //Quest quest = new Quest();
                 //QuestLab.get(getActivity()).addQuest(quest);
                 //updateUI();
-                mCallbacks.onQuestSelected(quest, true);
+                //Log.d(TAG, "UUID = " + quest.getQuestId().toString());
+                mCallbacks.onQuestEdit();
                 return true;
 
             case R.id.menu_Item_show_subtitle:
@@ -168,11 +170,11 @@ public class QuestListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            //Log.d(TAG, "quest ID = " + mQuest.getQuestId().toString());
+            Log.d(TAG, "quest ID = " + mQuest.getQuestId().toString());
             //Intent intent = new Intent(getActivity(),QuestActivity.class);
             //Intent intent = QuestPagerActivity.newIntent(getActivity(), mQuest.getQuestId());
             //startActivity(intent);
-            mCallbacks.onQuestSelected(mQuest, false);
+            mCallbacks.onQuestSelected(mQuest);
         }
     }
 

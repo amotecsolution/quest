@@ -166,7 +166,7 @@ public class QuestLab {
     public void updateQuest(Quest quest) {
         String uuidString = quest.getQuestId().toString();
         ContentValues values = getContentValues(quest);
-        Log.d(TAG, "quest ID: " + uuidString);
+        //Log.d(TAG, "quest ID: " + uuidString);
         mDatabase.update(QuestTable.NAME, values, QuestTable.Cols.UUID + " = ?", new String[]{uuidString});
     }
 }

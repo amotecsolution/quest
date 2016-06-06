@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
-import java.security.AccessControlContext;
 import java.util.UUID;
 
 /**
@@ -33,18 +30,19 @@ import java.util.UUID;
 public class QuestFragment extends Fragment {
 
     private Quest mQuest;
-    private EditText mTitleField;
+    private Callbacks mCallbacks;
+
     private static final String ARG_QUEST_ID = "quest_id";
-    private static final String ARG_FUNC_BUTTON = " function_buttons";
+    private final String TAG = "QuestFragment";
+
+    private EditText mTitleField;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
     private File mPhotoFile;
-    private Callbacks mCallbacks;
+
     private static final int REQUEST_PHOTO = 2;
-    private View modifiyView;
-    //private TextView mDetailTitle;
 
     public interface Callbacks {
         void onQuestUpdated(Quest quest);
@@ -53,10 +51,9 @@ public class QuestFragment extends Fragment {
     public QuestFragment() {
     }
 
-    public static QuestFragment newInstance(UUID questId, Boolean isFuncVisible) {
+    public static QuestFragment newInstance(UUID questId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_QUEST_ID, questId);
-        args.putSerializable(ARG_FUNC_BUTTON, isFuncVisible);
 
         QuestFragment fragment = new QuestFragment();
         fragment.setArguments(args);
@@ -77,6 +74,7 @@ public class QuestFragment extends Fragment {
         UUID questId = (UUID)getArguments().getSerializable(ARG_QUEST_ID);
 
         mQuest = QuestLab.get(getActivity()).getQuest(questId);
+        Log.d(TAG, "UUID (onCreate) = " + mQuest.getQuestId().toString());
         mPhotoFile = QuestLab.get(getActivity()).getPhotoFile(mQuest);
     }
 
@@ -96,13 +94,8 @@ public class QuestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_quest, container, false);
 
-        modifiyView = v.findViewById(R.id.add_cancel_button_view);
-        boolean isFuncVisible = (Boolean)getArguments().getSerializable(ARG_FUNC_BUTTON);
-        if (isFuncVisible == false) {
-            modifiyView.setVisibility(View.GONE);
-        }
+        View v = inflater.inflate(R.layout.fragment_quest_display_view, container, false);
 
         mTitleField = (EditText) v.findViewById(R.id.quest_title);
         mTitleField.setText(mQuest.getTitle());
