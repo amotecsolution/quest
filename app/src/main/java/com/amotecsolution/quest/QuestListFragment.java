@@ -151,26 +151,26 @@ public class QuestListFragment extends Fragment {
     private class QuestHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTitleTextView;
-        public TextView mDateTextView;
+        //public TextView mDateTextView;
         private Quest mQuest;
 
         public QuestHolder(View itemView) {
             super(itemView);
             //mTitleTextView = (TextView)itemView;
             mTitleTextView = (TextView)itemView.findViewById(R.id.list_item_quest_title_text_view);
-            mDateTextView = (TextView)itemView.findViewById(R.id.list_item_date);
+            //mDateTextView = (TextView)itemView.findViewById(R.id.list_item_date);
             itemView.setOnClickListener(this);
         }
 
         public void bindQuest(Quest quest) {
             mQuest = quest;
             mTitleTextView.setText(mQuest.getTitle());
-            mDateTextView.setText(DateFormat.getDateInstance().format(new Date()));
+            //mDateTextView.setText(DateFormat.getDateInstance().format(new Date()));
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "quest ID = " + mQuest.getQuestId().toString());
+            Log.d(TAG, "quest ID = " + mQuest.getQuestId());
             //Intent intent = new Intent(getActivity(),QuestActivity.class);
             //Intent intent = QuestPagerActivity.newIntent(getActivity(), mQuest.getQuestId());
             //startActivity(intent);

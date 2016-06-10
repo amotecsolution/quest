@@ -25,9 +25,9 @@ public class QuestCursorWrapper extends CursorWrapper{
         long date = getLong(getColumnIndex(QuestTable.Cols.DATE));
         int isSolved = getInt(getColumnIndex(QuestTable.Cols.SOLVED));
 
-        Quest quest = new Quest(UUID.fromString(uuidString));
+        Quest quest = new Quest(uuidString);
         quest.setTitle(title);
-        quest.setDate(new Date(date));
+        //quest.setDate(new Date(date));
         quest.setSolved(isSolved != 0);
 
         return quest;

@@ -7,10 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 import com.amotecsolution.quest.QuestDbSchema.QuestTable;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -23,6 +30,7 @@ public class QuestLab {
     private SQLiteDatabase mDatabase;
     private static final String TAG = "QuestLab";
 
+    private DatabaseReference mDatabaseReference;
 
     //Getting QuestLab object
     public static QuestLab get(Context context) {
@@ -46,6 +54,7 @@ public class QuestLab {
 
         mContext = context.getApplicationContext();
         mDatabase = new QuestBaseHelper(mContext).getWritableDatabase();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         /*
         Quest q1 = new Quest();
@@ -63,6 +72,7 @@ public class QuestLab {
         this.addQuest(q1);
         this.addQuest(q2);
         this.addQuest(q3);
+
         */
 
         /*
@@ -77,11 +87,31 @@ public class QuestLab {
 
     //Getting EngineList by EngineLab object (*for list operation only)
     public List<Quest> getQuests() {
-        //return mQuests; //For list operation
 
-        List<Quest> quests = new ArrayList<>();
+        final List<Quest> quests = new ArrayList<>();
+
+        Query queryRef = mDatabaseReference.child("quests").limitToLast(50);
+        queryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long l = dataSnapshot.getChildrenCount();
+                Log.i(TAG, "Count = " + l);
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    Quest quest = snapshot.getValue(Quest.class);
+                    Log.i(TAG, "Type = " + quest.getTitle());
+                    Log.i(TAG, "UUID = " + quest.getQuestId());
+                    quests.add(quest);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /* SQL operation
         QuestCursorWrapper cursor = queryQuests(null, null);
-
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -90,7 +120,7 @@ public class QuestLab {
             }
         } finally {
             cursor.close();;
-        }
+        }*/
 
         return quests;
     }
@@ -134,7 +164,7 @@ public class QuestLab {
 
     private static ContentValues getContentValues (Quest quest) {
         ContentValues values = new ContentValues();
-        values.put(QuestTable.Cols.UUID, quest.getQuestId().toString());
+        values.put(QuestTable.Cols.UUID, quest.getQuestId());
         values.put(QuestTable.Cols.TITLE, quest.getTitle());
         //values.put(QuestTable.Cols.DATE, quest.getDate().getTime());
         values.put(QuestTable.Cols.SOLVED, quest.isSolved() ? 1:0);
@@ -158,15 +188,31 @@ public class QuestLab {
 
     public void addQuest(Quest quest) {
 
+        //SQL operation
         ContentValues values = getContentValues(quest);
         mDatabase.insert(QuestTable.NAME, null, values);
+
+        //Firebase operation
+        mDatabaseReference.child("quests").push().setValue(quest);
     }
 
 
-    public void updateQuest(Quest quest) {
-        String uuidString = quest.getQuestId().toString();
+    public void updateQuest(final Quest quest) {
+        String uuidString = quest.getQuestId();
         ContentValues values = getContentValues(quest);
         //Log.d(TAG, "quest ID: " + uuidString);
         mDatabase.update(QuestTable.NAME, values, QuestTable.Cols.UUID + " = ?", new String[]{uuidString});
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //mDatabaseReference.updateChildren(quest.toMap());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getQuest:onCancelled", databaseError.toException());
+            }
+        };
     }
 }

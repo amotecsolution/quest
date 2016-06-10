@@ -22,7 +22,6 @@ import java.util.UUID;
  */
 public class QuestEditFragment extends Fragment {
 
-    //private Callbacks mCallbacks;
     private Quest mQuest;
 
     private EditText mTitleEditText;
@@ -33,7 +32,7 @@ public class QuestEditFragment extends Fragment {
     private final static String ARG_QUEST_ID = "quest_id";
     private final String TAG = "QuestEditFragment";
 
-    public static Fragment newInstance(UUID questId) {
+    public static Fragment newInstance (String questId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_QUEST_ID, questId);
 
@@ -42,28 +41,12 @@ public class QuestEditFragment extends Fragment {
         return fragment;
     }
 
-    /*
-    public interface Callbacks {
-        void onQuestEdit();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallbacks = (Callbacks)activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
-    }*/
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID questId = (UUID)getArguments().getSerializable(ARG_QUEST_ID);
+        String questId = (String)getArguments().getSerializable(ARG_QUEST_ID);
+        mQuest = new Quest(questId);
+        Log.i(TAG, "QuestId = " + mQuest.getQuestId());
     }
 
     @Nullable
@@ -76,7 +59,10 @@ public class QuestEditFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Add QUEST", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Quest Added", Toast.LENGTH_SHORT).show();
+                mQuest.setTitle(mTitleEditText.getText().toString());
+                QuestLab.get(getActivity()).addQuest(mQuest);
+                getActivity().onBackPressed();
             }
         });
 
@@ -84,7 +70,7 @@ public class QuestEditFragment extends Fragment {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getActivity().onBackPressed();
             }
         });
 

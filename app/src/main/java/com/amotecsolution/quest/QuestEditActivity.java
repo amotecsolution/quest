@@ -14,7 +14,7 @@ public class QuestEditActivity extends SingleFragmentActivity {
     private static final String EXTRA_QUEST_ID = "com.amotecsolution.android.quest_id";
     private final String TAG = "QuestEditActivity";
 
-    public static Intent newIntent(Context packageContext, UUID questId) {
+    public static Intent newIntent(Context packageContext, String questId) {
         Intent intent = new Intent(packageContext, QuestEditActivity.class);
         intent.putExtra(EXTRA_QUEST_ID, questId);
         return intent;
@@ -24,8 +24,8 @@ public class QuestEditActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         //return new QuestEditFragment();
 
-        UUID questId = (UUID)getIntent().getSerializableExtra(EXTRA_QUEST_ID);
-        Log.d(TAG, "UUID = " + questId.toString());
+        String questId = (String)getIntent().getSerializableExtra(EXTRA_QUEST_ID);
+        Log.d(TAG, "UUID = " + questId);
         return QuestEditFragment.newInstance(questId);
     }
 }
