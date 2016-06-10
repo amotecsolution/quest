@@ -34,7 +34,7 @@ public class QuestListActivity extends SingleFragmentActivity implements QuestLi
     public void onQuestSelected(Quest quest) {
 
         if(findViewById(R.id.detail_fragment_container) == null) {
-            Log.d(TAG, "UUID = " + quest.getQuestId().toString());
+            Log.d(TAG, "UUID = " + quest.getQuestId());
             Intent intent = QuestPagerActivity.newIntent(this, quest.getQuestId());
             startActivity(intent);
         } else {

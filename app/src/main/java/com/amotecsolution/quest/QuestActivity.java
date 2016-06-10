@@ -27,7 +27,7 @@ public class QuestActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         //return new QuestFragment();
-        UUID questId = (UUID)getIntent().getSerializableExtra(EXTRA_QUEST_ID);
+        String questId = (String)getIntent().getSerializableExtra(EXTRA_QUEST_ID);
         return QuestFragment.newInstance(questId);
     }
 }

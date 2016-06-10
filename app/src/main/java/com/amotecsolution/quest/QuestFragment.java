@@ -51,7 +51,7 @@ public class QuestFragment extends Fragment {
     public QuestFragment() {
     }
 
-    public static QuestFragment newInstance(UUID questId) {
+    public static QuestFragment newInstance(String questId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_QUEST_ID, questId);
 
@@ -74,7 +74,7 @@ public class QuestFragment extends Fragment {
         UUID questId = (UUID)getArguments().getSerializable(ARG_QUEST_ID);
 
         mQuest = QuestLab.get(getActivity()).getQuest(questId);
-        Log.d(TAG, "UUID (onCreate) = " + mQuest.getQuestId().toString());
+        Log.d(TAG, "UUID (onCreate) = " + mQuest.getQuestId());
         mPhotoFile = QuestLab.get(getActivity()).getPhotoFile(mQuest);
     }
 

@@ -1,6 +1,5 @@
 package com.amotecsolution.quest;
 
-import android.widget.EditText;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,18 +8,18 @@ import java.util.UUID;
  */
 public class Quest {
 
-    private UUID questId;
+    private String questId;
     private String mTitle;
-    private Date mDate;
+    //private Date mDate;
     private boolean isSolved;
+    private String mFilePhotoName;
 
     public Quest() {
-        this(UUID.randomUUID());
+        this.questId = (UUID.randomUUID()).toString();
     }
 
-    public Quest(UUID uuid) {
-        questId = uuid;
-        //mDate = new Date();
+    public Quest(String uuid) {
+        this.questId = uuid;
     }
 
     public String getTitle() {
@@ -31,17 +30,14 @@ public class Quest {
         mTitle = title;
     }
 
-    public UUID getQuestId() {
-        return questId;
-    }
-
+    /*
     public Date getDate() {
         return mDate;
     }
 
     public void setDate(Date date) {
         mDate = date;
-    }
+    }*/
 
     public boolean isSolved() {
         return isSolved;
@@ -53,5 +49,13 @@ public class Quest {
 
     public String getPhotoFileName() {
         return "IMG_" + getQuestId().toString() + ".jpg";
+    }
+
+    public void setFilePhotoName(String filePhotoName) {
+        mFilePhotoName = filePhotoName;
+    }
+
+    public String getQuestId() {
+        return questId;
     }
 }
