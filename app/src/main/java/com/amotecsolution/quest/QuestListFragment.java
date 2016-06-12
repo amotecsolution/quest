@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -134,8 +135,7 @@ public class QuestListFragment extends Fragment {
     }
 
     public void updateUI() {
-        QuestLab questLab = QuestLab.get(getActivity());
-        List<Quest> quests = questLab.getQuests();
+        List<Quest> quests = QuestLab.get(getActivity()).getQuests();
         if (mAdapter == null) {
             mAdapter = new QuestAdapter(quests);
             mQuestRecyclerView.setAdapter(mAdapter);

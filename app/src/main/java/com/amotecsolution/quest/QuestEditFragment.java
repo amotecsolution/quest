@@ -70,6 +70,10 @@ public class QuestEditFragment extends Fragment {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
+=======
+                QuestLab.get(getActivity()).getQuests();
+>>>>>>> working
                 getActivity().onBackPressed();
             }
         });

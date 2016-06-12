@@ -1,12 +1,16 @@
 package com.amotecsolution.quest;
 
-import android.content.ContentValues;
+//import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+//import android.database.Cursor;
+//import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
+<<<<<<< HEAD
 import com.amotecsolution.quest.QuestDbSchema.QuestTable;
+=======
+//import com.amotecsolution.quest.QuestDbSchema.QuestTable;
+>>>>>>> working
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,9 +29,9 @@ import java.util.UUID;
  */
 public class QuestLab {
     private static QuestLab sQuestLab; //Make QuestLab object to static
-    //private List<Quest> mQuests; //Make a list within the QuestLab
+    private List<Quest> mQuests; //Make a list within the QuestLab
     private Context mContext;
-    private SQLiteDatabase mDatabase;
+    //private SQLiteDatabase mDatabase;
     private static final String TAG = "QuestLab";
 
     private DatabaseReference mDatabaseReference;
@@ -51,9 +55,15 @@ public class QuestLab {
             mQuests.add(quest);
         } */
 
+        mQuests = new ArrayList<>();
+        //mQuests = getQuests();
 
         mContext = context.getApplicationContext();
+<<<<<<< HEAD
         mDatabase = new QuestBaseHelper(mContext).getWritableDatabase();
+=======
+        //mDatabase = new QuestBaseHelper(mContext).getWritableDatabase();
+>>>>>>> working
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         /*
@@ -88,19 +98,33 @@ public class QuestLab {
     //Getting EngineList by EngineLab object (*for list operation only)
     public List<Quest> getQuests() {
 
+<<<<<<< HEAD
         final List<Quest> quests = new ArrayList<>();
 
         Query queryRef = mDatabaseReference.child("quests").limitToLast(50);
+=======
+        Query queryRef = mDatabaseReference.child("quests");
+>>>>>>> working
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long l = dataSnapshot.getChildrenCount();
                 Log.i(TAG, "Count = " + l);
+<<<<<<< HEAD
+=======
+                mQuests.clear();
+                Log.i(TAG, "getQuests: intials size " + mQuests.size());
+>>>>>>> working
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     Quest quest = snapshot.getValue(Quest.class);
                     Log.i(TAG, "Type = " + quest.getTitle());
                     Log.i(TAG, "UUID = " + quest.getQuestId());
+<<<<<<< HEAD
                     quests.add(quest);
+=======
+                    mQuests.add(quest);
+                    Log.i(TAG, "onDataChange: quests.size()" + mQuests.size());
+>>>>>>> working
                 }
             }
 
@@ -120,9 +144,15 @@ public class QuestLab {
             }
         } finally {
             cursor.close();;
+<<<<<<< HEAD
         }*/
+=======
+        }
+        */
+>>>>>>> working
 
-        return quests;
+        Log.i(TAG, "getQuests: final size " + mQuests.size());
+        return mQuests;
     }
 
     //Getting Quest by passing UUID to QuestLab object
@@ -134,11 +164,13 @@ public class QuestLab {
                 return quest;
             }
         }
-        return null;
         */
+        return null;
 
+
+        /* SQL opearation
         QuestCursorWrapper cursor = queryQuests(QuestTable.Cols.UUID + " = ?", new String[]{id.toString()});
-        //Log.d(TAG, "quest ID = " + id.toString());
+        Log.d(TAG, "quest ID = " + id.toString());
 
         try {
             if(cursor.getCount() == 0) {
@@ -152,6 +184,7 @@ public class QuestLab {
         } finally {
             cursor.close();
         }
+        */
     }
 
     public File getPhotoFile(Quest quest) {
@@ -162,6 +195,7 @@ public class QuestLab {
         return new File(externalFileDir, quest.getPhotoFileName());
     }
 
+    /* SQL operation
     private static ContentValues getContentValues (Quest quest) {
         ContentValues values = new ContentValues();
         values.put(QuestTable.Cols.UUID, quest.getQuestId());
@@ -171,7 +205,6 @@ public class QuestLab {
 
         return values;
     }
-
 
     private QuestCursorWrapper queryQuests(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query (
@@ -185,12 +218,20 @@ public class QuestLab {
         );
         return new QuestCursorWrapper(cursor);
     }
+    */
 
     public void addQuest(Quest quest) {
 
+<<<<<<< HEAD
         //SQL operation
         ContentValues values = getContentValues(quest);
         mDatabase.insert(QuestTable.NAME, null, values);
+=======
+        /*SQL operation
+        ContentValues values = getContentValues(quest);
+        mDatabase.insert(QuestTable.NAME, null, values);
+        */
+>>>>>>> working
 
         //Firebase operation
         mDatabaseReference.child("quests").push().setValue(quest);
@@ -199,9 +240,17 @@ public class QuestLab {
 
     public void updateQuest(final Quest quest) {
         String uuidString = quest.getQuestId();
+<<<<<<< HEAD
+=======
+
+        /*SQL operation
+>>>>>>> working
         ContentValues values = getContentValues(quest);
-        //Log.d(TAG, "quest ID: " + uuidString);
         mDatabase.update(QuestTable.NAME, values, QuestTable.Cols.UUID + " = ?", new String[]{uuidString});
+<<<<<<< HEAD
+=======
+        */
+>>>>>>> working
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
